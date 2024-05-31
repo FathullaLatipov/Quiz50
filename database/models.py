@@ -18,14 +18,36 @@ class User(Base):
 class Questions(Base):
     __tablename__ = 'questions'
     id = Column(Integer, autoincrement=True, primary_key=True)
-    main_question = Column(String, nullable=False) #Что такое питон
-    v1 = Column(String) # Змея
-    v2 = Column(String) # python
+    main_question = Column(String, nullable=False)  # Что такое питон
+    v1 = Column(String)  # Змея
+    v2 = Column(String)  # python
     v3 = Column(String)
     v4 = Column(String)
-    correct_answer = Column(Integer, nullable=False) #2
+    correct_answer = Column(Integer, nullable=False)  # 2
     timer = Column(DateTime)
 
-# Таблицу для лидеров/результаты
-# Ответы пользователя на вопросы
 
+# Таблицу для лидеров/результаты
+class Result(Base):
+    __tablename__ = 'results'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey('users.id'))  # 4
+    correct_answers = Column(Integer, default=0)
+    level = Column(String, nullable=False)
+
+    user_fk = relationship(User, foreign_keys=[user_id], lazy='subquery')
+
+
+# Ответы пользователя на вопросы
+class UserAnswers(Base):
+    __tablename__ = 'user_answers'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey('users.id')) #3
+    q_id = Column(Integer, ForeignKey('questions.id'))
+    level = Column(String, ForeignKey('users.level'))
+    user_answer = Column(String, nullable=False)
+    correctness = Column(Boolean, default=False)
+    timer = Column(DateTime)
+
+    user_fk = relationship(User, foreign_keys=[user_id], lazy='subquery')
+    question_fk = relationship(Questions, foreign_keys=[q_id], lazy='subquery')

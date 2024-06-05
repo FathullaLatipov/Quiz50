@@ -40,7 +40,7 @@ def user_answer_db(user_id, id, level, correct_answer):
         print(f'this is new answer {new_answer}')
         db.add(new_answer)
         db.commit()
-        if correctness == True:
+        if correctness:
             user_result = db.query(Result).filter_by(user_id=user_id).first()
             print(f'this is user {user_result}')
             if user_result:
@@ -48,6 +48,7 @@ def user_answer_db(user_id, id, level, correct_answer):
                 db.commit()
                 return 'Плюс один балл'
         else:
+            print('не сработало')
             return False
     else:
         return 'Вопрос не найден :('

@@ -1,10 +1,16 @@
 from fastapi import FastAPI
+
+from api.test_api.tests import test_router
+from api.user_api.users import user_router
 from database import Base, engine
 from database.usersevice import get_all_users_db
 
 # uvicorn main:app --reload
 app = FastAPI(docs_url='/')
 Base.metadata.create_all(bind=engine)
+
+app.include_router(user_router)
+app.include_router(test_router)
 
 
 @app.get('/all-users', tags=['API for users'])

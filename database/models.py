@@ -23,7 +23,7 @@ class Questions(Base):
     v2 = Column(String)  # python
     v3 = Column(String)
     v4 = Column(String)
-    correct_answer = Column(Integer, nullable=False)  # 2
+    correct_answer = Column(String, nullable=False)  # 2
     timer = Column(DateTime)
 
 
@@ -45,7 +45,7 @@ class UserAnswers(Base):
     user_id = Column(Integer, ForeignKey('users.id')) #3
     q_id = Column(Integer, ForeignKey('questions.id'))
     level = Column(String, ForeignKey('users.level'))
-    user_answer = Column(String, nullable=False)
+    user_answer = Column(String)
     correctness = Column(Boolean, default=False)
     timer = Column(DateTime)
 
